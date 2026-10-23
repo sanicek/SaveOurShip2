@@ -1,15 +1,26 @@
 # Personal fork workflow
 
 This checkout is for `sanicek/SaveOurShip2`. Its working and GitHub default branch
-is `main`, initially created from `super_unstable`. The original local and fork
-branches named `super_unstable` were left unchanged.
+is `sanicek-main`, initially created from `super_unstable`. The starting branch
+is preserved as `sanicek-super_unstable`. The old local and fork branch names
+`main` and `super_unstable` have been replaced with these prefixed names; the
+original repository is unchanged.
+
+Use `sanicek-feat/<description>` for new feature branches, for example:
+
+```sh
+git switch sanicek-main
+git switch --create sanicek-feat/something-new
+git push --set-upstream origin sanicek-feat/something-new
+```
 
 ## Safe defaults
 
 - The only configured remote is `origin`: `git@github.com:sanicek/SaveOurShip2.git`.
 - Git pushes default to `origin`, with `push.default=simple` (only the current
   branch, with branch-name checks).
-- `main` tracks `origin/main`.
+- `sanicek-main` tracks `origin/sanicek-main`.
+- `sanicek-super_unstable` tracks `origin/sanicek-super_unstable`.
 - GitHub CLI defaults to `sanicek/SaveOurShip2`. Use an explicit repository for
   commands, for example `gh pr create --repo sanicek/SaveOurShip2`.
 - No upstream remote is configured, so ordinary fetches, including
@@ -38,10 +49,10 @@ It does not need to be configured as a remote for an intentional one-time fetch.
 Only when upstream contact is explicitly requested, fetch and inspect its changes:
 
 ```sh
-git switch main
+git switch sanicek-main
 git fetch --no-tags git@github.com:Bqr1s/SaveOurShip2.git super_unstable
-git log --oneline main..FETCH_HEAD
-git diff --stat main...FETCH_HEAD
+git log --oneline sanicek-main..FETCH_HEAD
+git diff --stat sanicek-main...FETCH_HEAD
 ```
 
 Fetching does not merge anything. `FETCH_HEAD` is temporary and can be replaced
@@ -51,7 +62,7 @@ commit, resolve any conflicts, test, and push only to the fork:
 
 ```sh
 git merge FETCH_HEAD
-git push origin main
+git push origin sanicek-main
 ```
 
-Do not use GitHub's fork-sync action on `main` unless intentionally syncing it.
+Do not use GitHub's fork-sync action on `sanicek-main` unless intentionally syncing it.
