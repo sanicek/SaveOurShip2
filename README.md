@@ -1,3 +1,44 @@
+# Save Our Ship 2 — sanicek's personal fork
+
+This is an **unofficial, noncommercial personal fork** maintained by sanicek for
+experimentation. It is not an official upstream or RimWorld release, and no
+endorsement by the original authors, maintainers, contributors, or Ludeon is
+implied. No separate releases or distribution outside this repository are
+currently planned; that intention does not restrict recipients' licensed rights.
+
+## Attribution and license
+
+Save Our Ship 2 was developed by Kentington and Thain, with SonicTHI, maintainer
+Boris (Bqr1s), and the many contributors credited in the preserved README below,
+`About/About.xml`, and the in-game credits. This fork is based on
+[Bqr1s/SaveOurShip2](https://github.com/Bqr1s/SaveOurShip2), commit
+`af176bf643dc3ca33c9248efa52d261edb54e32e`.
+
+The mod is offered under **[Creative Commons Attribution-NonCommercial-ShareAlike
+4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/)**; see
+[License.md](License.md) for the full terms and warranty/liability disclaimer.
+Fork-specific adaptations and repository documentation authored by sanicek use
+the same license. Third-party components retain their separate licenses; see
+[third-party notices](repo/ThirdPartyNotices.md).
+
+**Fork changes so far:** repository workflow and licensing documentation,
+preservation of upstream attribution, and prefixed personal branch names. Mod
+source, game assets, and shipped assemblies have not been changed by this fork.
+Subsequent modifications are recorded in Git history; keep this summary current
+when their scope changes.
+
+Repository information: [workflow and maintenance rules](repo/ForkWorkflow.md),
+[provenance and review limitations](repo/Provenance.md), and the
+[unchanged original README snapshot](repo/UpstreamREADME.md).
+Product/gameplay documentation remains in [Docs/](Docs/).
+
+## Preserved upstream README
+
+The historical text below, including its version claims, credits, and links, is
+preserved unchanged. Do not edit the marked block; put fork-specific updates above
+it. Its exact source and checksum are recorded in [repo/Provenance.md](repo/Provenance.md).
+
+<!-- BEGIN PRESERVED UPSTREAM README -->
 Important note: this up to date GitHub version of Save Our Ship 2 works on RimWorld 1.7. Steam SOS 2 is old and doesn't work on 1.7.
 On 1.7, need to use DEV version of Vehicle Framework: https://steamcommunity.com/sharedfiles/filedetails/?id=3522907382
 
@@ -35,3 +76,4 @@ OG Testing Squad: Buns Buns Cat, Phsarjk, i am has yes, Fuji, Reviire, Ian, Gene
 The previous community-maintained repository can be found at (https://github.com/SonicTHI/SaveOurShip2Experimental). All commit history has been preserved in the current repository.
 
 Thanks to the Gibberlings3 for providing modding-focused Community Commons license [templates](https://github.com/Gibberlings3/GitHub-Templates) and tutorials on ensuring that modding remains compliant with the law.
+<!-- END PRESERVED UPSTREAM README -->

@@ -1,5 +1,9 @@
 # Personal fork workflow
 
+Repository rules and metadata live in `repo/`; `Docs/` is for product/gameplay
+documentation. See [provenance and attribution](Provenance.md) and
+[third-party notices](ThirdPartyNotices.md).
+
 This checkout is for `sanicek/SaveOurShip2`. Its working and GitHub default branch
 is `sanicek-main`, initially created from `super_unstable`. The starting branch
 is preserved as `sanicek-super_unstable`. The old local and fork branch names
@@ -66,3 +70,40 @@ git push origin sanicek-main
 ```
 
 Do not use GitHub's fork-sync action on `sanicek-main` unless intentionally syncing it.
+
+## Attribution and licensing rules for changes
+
+- Keep the root `License.md` intact. Fork-specific adaptations and repository
+  documentation authored by sanicek use CC BY-NC-SA 4.0; separately licensed
+  third-party material retains its own license.
+- Treat `repo/UpstreamREADME.md` as an immutable historical snapshot. Do not
+  reformat, correct, or update it, including contributor names, links, and typos.
+  Its source commit and checksum are recorded in [Provenance.md](Provenance.md).
+- Leave the original section between the preservation markers in the root
+  `README.md` unchanged. Put fork-specific information above it. Later upstream
+  syncs must preserve the archived snapshot and review any attribution changes
+  deliberately rather than silently overwriting the original section.
+- Preserve existing author/contributor credits, copyright and license notices,
+  warranty disclaimers, source links, and indications of previous modifications,
+  including those in `About/About.xml`, `CreditsUpdate.txt`, and in-game credits.
+  Add fork-maintainer credit separately; do not replace the original authors.
+- Identify modifications with meaningful commits and update the fork-specific
+  README summary when the scope changes. Clearly distinguish this unofficial
+  personal fork from upstream; do not imply endorsement.
+- Keep use noncommercial. Reassess licensing before any monetization or
+  commercial use. Having no download price is not by itself sufficient.
+- Before importing code, assets, or binaries, verify their source, version,
+  license, compatibility, and required notices. Record the evidence and add any
+  required text to [ThirdPartyNotices.md](ThirdPartyNotices.md). Do not treat
+  missing or uncertain permission as consent.
+- Do not commit game/engine DLLs, publicized game assemblies, external dependency
+  binaries, or copied assets without first verifying redistribution permission.
+  Build references do not themselves grant that permission.
+- Do not add terms such as "no redistribution" or technological measures that
+  restrict recipients' licensed rights. The current intention not to publish
+  separate releases is not an additional license condition.
+- Before any separately packaged distribution, review its contents and carry
+  the applicable license, attribution, disclaimer, modification information, and
+  third-party notices with it. Review outstanding provenance questions first.
+
+These are maintenance rules for this fork, not amendments to any license.
