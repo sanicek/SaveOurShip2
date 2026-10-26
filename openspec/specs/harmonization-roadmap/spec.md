@@ -1,4 +1,4 @@
-# Spec Delta
+# harmonization-roadmap Specification
 
 ## Purpose
 
@@ -6,7 +6,7 @@ Provide an evidence-backed, stage-gated delivery contract for a clean-break
 RimWorld 1.7/Odyssey-native SOS2 variant. The roadmap guides separately scoped
 feature changes without declaring unimplemented gameplay capabilities complete.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Clean-break target boundary
 
@@ -25,6 +25,33 @@ compatibility requirements on the new variant.
 - **WHEN** a later child change selects a different supported 1.7 build
 - **THEN** it records that baseline and rechecks affected evidence without
   promising simultaneous support for prior builds
+
+### Requirement: Toolchain selection follows official compatibility evidence
+
+The roadmap SHALL require S00 to select the newest stable compatible SDK using
+official RimWorld and Microsoft documentation and release evidence, and record
+a reproducible SDK pin and update policy. SDK, target framework, supported
+language version, and game-supplied runtime SHALL be recorded separately.
+Installed tooling and inherited upstream settings SHALL NOT impose automatic
+version ceilings.
+
+#### Scenario: Local or inherited tooling is older
+- **WHEN** official evidence supports newer stable tooling than the installed
+  SDK or inherited upstream settings
+- **THEN** the roadmap selects from documented compatibility rather than retaining
+  the older toolchain solely because it is installed or inherited
+
+#### Scenario: A newer SDK is evaluated
+- **WHEN** S00 or a later child considers a newer stable SDK
+- **THEN** it rechecks official compatibility and release evidence and records
+  the SDK pin separately from the runtime target and supported language version,
+  without assuming that newer build tooling authorizes a newer game runtime
+
+#### Scenario: A child uses the established toolchain baseline
+- **WHEN** a runtime child records its build baseline
+- **THEN** it carries forward S00's SDK pin, target framework, supported language
+  version, game runtime and native reference identity, or explicitly justifies
+  and validates an update against official compatibility and release evidence
 
 ### Requirement: One authoritative vessel lifecycle
 
@@ -94,15 +121,23 @@ or an exhaustive per-definition audit.
 ### Requirement: Traceable and honestly classified evidence
 
 Findings SHALL distinguish confirmed user decisions, observed repository code,
-observed native definitions or API surfaces, proposed defaults, and unverified
-runtime behavior. Evidence SHALL record its source and inspection baseline.
-Static inspection SHALL NOT count as a passed build, gameplay, or persistence
-test.
+observed native definitions or API surfaces, official documentation and release
+information, proposed defaults, and unverified runtime behavior. Evidence SHALL
+record its source and inspection baseline or access date. Static inspection and
+published documentation SHALL NOT count as a passed build, gameplay, or
+persistence test.
 
 #### Scenario: A native transfer interface exists
 - **WHEN** local metadata exposes relevant transfer and serialization operations
 - **THEN** the roadmap records API availability while keeping actual extension
   state retention unverified until an appropriate runtime investigation passes
+
+#### Scenario: Official documentation establishes toolchain compatibility
+- **WHEN** official documentation identifies a supported runtime target or
+  language version, or release information identifies an available SDK
+- **THEN** the roadmap records the source, access date and documented claim
+  separately from local observations, without declaring the selected
+  toolchain/reference combination or any runtime gate validated
 
 ### Requirement: Bounded child changes and explicit dependencies
 

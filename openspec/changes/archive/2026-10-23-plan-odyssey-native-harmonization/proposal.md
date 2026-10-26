@@ -20,6 +20,11 @@ extending genuine gameplay gaps rather than maintaining parallel simulations.
 - Record source inspection and the locally available native baseline separately
   from unverified runtime assumptions. Require lifecycle, structural damage,
   combat arrangement, and scale investigations before dependent implementation.
+- Select the newest stable compatible tooling from official RimWorld and
+  Microsoft documentation and release evidence, not local installations or
+  inherited upstream restrictions. Distinguish build SDK, target framework,
+  language version, and the game-supplied runtime; S00 rechecks and reproducibly
+  pins its selected SDK without treating documentation as a passed runtime gate.
 - Prefer a minimal native-first runtime with selectively adapted SOS2 mechanics
   over making the entire inherited runtime a prerequisite. Basic transport,
   shielding, and discovery must first be compared with existing native options.
@@ -59,6 +64,10 @@ None. The project currently has no main capability specifications.
   and Vehicle Framework coupling are reference/touchpoint evidence, not mandatory
   foundations for the new runtime.
 - Local inspection baseline: RimWorld `1.7.4985 rev1269` and .NET SDK `10.0.113`.
-  Native metadata/definitions are accessible; builds and gameplay behavior have
-  not been validated. No game assemblies, decompiled implementations, or official
-  assets will be copied into these planning artifacts.
+  This records availability, not a tooling ceiling. The proposed build baseline
+  is SDK `10.0.402`, targeting `net10.0` with C# 14, supported by the official
+  sources checked on 2026-10-23 and recorded in [design.md](design.md). It does
+  not require replacing the game's bundled runtime. Native metadata/definitions
+  are accessible; builds and gameplay behavior have not been validated. No game
+  assemblies, decompiled implementations, or official assets will be copied into
+  these planning artifacts.

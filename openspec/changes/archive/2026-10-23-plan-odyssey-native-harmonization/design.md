@@ -14,7 +14,9 @@ the evidence required to advance them.
   inherited from the preserved baseline documented in `repo/Provenance.md`.
 - Inspection date: 2026-10-23.
 - Local game: `1.7.4985 rev1269`, identified by the installed `Version.txt`.
-- Local .NET SDK: `10.0.113`. The current source project targets `net10.0`.
+- Local .NET SDK: `10.0.113`, an inspection observation rather than a tooling
+  constraint. The current source project targets `net10.0` but explicitly caps
+  the language at C# 10; neither inherited setting determines the new toolchain.
 - Native `Assembly-CSharp.dll` SHA-256:
   `0be7a7ea4b3111d4430f45b36c234a5e43287880b0514b23915f2ef9a0629e16`.
 - The game was found at the conventional Linux Steam installation path. Its
@@ -28,6 +30,8 @@ Use these evidence classifications throughout the programme:
   code verified active in a running build.
 - **Observed-native:** installed game definitions or assembly metadata. A method
   or field exists; its suitability for a proposed extension is not yet proven.
+- **Documented-official:** published Ludeon or Microsoft documentation/release
+  information, with source and access date; not a local build or runtime result.
 - **Proposed:** a recommended disposition, boundary, or child scope.
 - **Unverified-runtime:** behavior requiring a future authorized experiment or
   acceptance run. No runtime gate below is currently passed.
@@ -35,6 +39,18 @@ Use these evidence classifications throughout the programme:
 No restore, build, game launch, prototype, or gameplay/persistence test was run.
 Source counts include obsolete and excluded files; textual Harmony-annotation
 counts also include commented historical patches and are not active patch counts.
+
+### Official toolchain evidence
+
+The following sources were checked on 2026-10-23. Published compatibility and
+release information is separate from the local inspection baseline above.
+
+| ID | Official source | Documented finding |
+| --- | --- | --- |
+| D1 | [Ludeon: Modder Primer for 1.7](https://docs.google.com/document/d/e/2PACX-1vSykw5_DYaaw42nEznI9zmBZVT_Vgg2bxYq_v2XWvAsHC3QSKFuDK2OyiQ5WC9jvVRUcrjpFt7xLLF5/pub), especially “Compiling against Waylith” | Waylith uses .NET 10; mods should target `net10.0`. The primary references are `Assembly-CSharp.dll`, `Waylith.dll` and `UnityStubs.dll`, with `RimWorld.dll` where needed. |
+| D2 | [Ludeon: Announcing the Waylith Engine and Update 1.7](https://ludeon.com/blog/2026/10/announcing-the-waylith-engine-and-update-1-7/), published 2026-10-12 | The 1.7 update moves the game to Waylith and explicitly permits modern C# language features. Its legacy-mod compatibility goals do not impose a compatibility commitment on this variant. |
+| D3 | [Microsoft: .NET release index](https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json) | The newest stable SDK listed is `10.0.402`, released 2026-10-13. .NET 11 is still prerelease; these SDK/runtime release entries do not identify the runtime patch bundled with the installed game. |
+| D4 | [Microsoft: C# language versioning](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-versioning) and [SDK/runtime version selection](https://learn.microsoft.com/en-us/dotnet/core/versions/selection) | `net10.0` defaults to C# 14. Newer SDK tooling can target an earlier runtime; a newer SDK does not itself authorize a newer runtime target or an unsupported language/TFM combination. |
 
 ### Repository evidence anchors
 
@@ -144,6 +160,39 @@ plating as native substructure, broadening `IsSpace()` before reconciling its
 callers, or preserving existing code boundaries at the expense of native ownership.
 These retain the conflicting assumptions demonstrated by E1-E8.
 
+#### Select modern tooling independently of inherited constraints
+
+Select tooling from documented RimWorld compatibility, not the versions already
+installed locally, upstream build conventions, legacy framework support, or
+inherited dependencies. The proposed build baseline is .NET SDK `10.0.402`,
+targeting `net10.0` with C# 14 (D1-D4). This uses the newest stable SDK identified
+at review time without retaining the inherited C# 10 cap. Local SDK `10.0.113`
+remains historical inspection evidence only.
+
+Keep three decisions distinct: SDK/compiler version, target framework/language
+version, and the runtime supplied by the selected game build. Using this SDK
+does not require replacing or upgrading the game's bundled runtime. Do not infer
+its runtime patch version from Microsoft's latest release. Current official
+RimWorld documentation establishes `net10.0`, not `net11.0`; .NET 11 prerelease
+tooling is not selected for this baseline.
+
+S00 rechecks official game documentation, update notes and SDK releases, records
+the newest stable compatible SDK it selects, and defines a reproducible SDK pin
+and update policy for its authorized implementation. Later stable SDKs may be
+evaluated while retaining `net10.0` and its supported language version. Prefer
+the TFM-supported default or an explicit C# 14 setting over an unbounded
+`LangVersion=latest`. Verify game references and any justified dependencies
+against the selected native build; an inherited dependency's tooling restriction
+is a reason to reassess that dependency, not an automatic programme ceiling.
+
+This parent changes no SDK installation or build configuration. Documentation
+alone passes neither a build nor a runtime gate; the selected toolchain and
+native reference combination still require evidence under G0 and later gates.
+
+**Alternatives rejected:** freezing the toolchain at the locally installed SDK,
+preserving upstream's C# 10 cap for its own sake, or treating the newest SDK as
+permission to target a runtime/language combination unsupported by RimWorld 1.7.
+
 ### 3. Track mechanic dispositions explicitly
 
 The following is a roadmap-level survey, not an exhaustive per-definition audit.
@@ -191,7 +240,7 @@ substitute for the gate's failure/persistence checks.
 
 | Gate | Required investigation and evidence | Pass / stop boundary |
 | --- | --- | --- |
-| G0: baseline and isolation | Record the native build/assembly identity, usable SDK/references and minimal test profile; establish a reproducible native baseline without modifying the installed game or default mod profile. | Enter runtime investigations only with an identified baseline and isolated execution path. Do not require legacy SOS2 to compile first. |
+| G0: baseline and isolation | Record the native build/assembly identity and bundled runtime identity; recheck official compatibility/release sources, select and reproducibly pin the newest stable compatible SDK, record TFM/language choices separately, and verify usable native references and a minimal test profile. Establish a reproducible native baseline without modifying the installed game or default mod profile. | Enter runtime investigations only with an identified baseline, evidenced toolchain/reference combination and isolated execution path. Installed tools and inherited settings are not ceilings; documentation alone is not a passed build/runtime check. Do not require legacy SOS2 to compile first. |
 | G1: lifecycle and ownership | Probe native membership, equipment attachment/invalidation, launch, supported save/load points, arrival/rotation, cancellation/failure, and repeat travel with tracked pawns/items/resources and extension state. | Pass only with one authority and no duplication/loss. Otherwise revise the association/hook or reduce scope; do not restore legacy movement. |
 | G2: structural loss and environment | Probe foundation destruction, breaches and repair, disconnected components, engine destruction, map retention/removal, stranded pawns and recoverable remains. | Pass with native-consistent ownership, environment and recovery semantics. Defer unsupported salvage operations rather than invent a second owning graph. |
 | G3: combat arrangement | Compare linked native-space maps with a shared encounter map. Evaluate targeting, incoming damage, native shields, room breaches, retreat/travel locks, capture/map cleanup and save/load. Demonstrate the selected minimal approach. | Pass only when participants and effects remain native-world coherent. Stop dependent weapon/boarding/salvage commitments if neither approach meets the invariants. |
@@ -213,7 +262,7 @@ any later implementation branch. Preparing a candidate is not starting it.
 
 | Stage / candidate change | Prerequisites | Bounded scope and capabilities | Exit evidence and exclusions |
 | --- | --- | --- | --- |
-| S00 `establish-native-baseline` | Parent reviewed | Reproducibility/isolation contract, exact native hook assessment, active-vs-reference code and shared-asset inventory, dependency/DLC decisions, validation approach; close G0. | Identified baseline and isolated native test path, specific probe scenarios and unresolved evidence recorded. No generic rediscovery task, full legacy build requirement, or broad code port. |
+| S00 `establish-native-baseline` | Parent reviewed | Reproducibility/isolation contract; refresh D1-D4 and select the newest stable compatible SDK with a reproducible pin/update policy, separate runtime/TFM/language records and verified game references. Include exact native hook assessment, active-vs-reference code and shared-asset inventory, dependency/DLC decisions and validation approach; close G0. | Identified baseline, evidenced toolchain/reference combination and isolated native test path, specific probe scenarios and unresolved evidence recorded. No inherited SDK/language ceiling, generic rediscovery task, full legacy build requirement, or broad code port. |
 | S01 `prove-native-vessel-lifecycle` | S00 / G0 | An explicitly scoped minimal probe host for G1 and the foundational G2 cases: ownership, transfer/state association, structural invalidation, engine loss and environment consequences. | Repeatable success/failure/save-load evidence; native association and destruction contracts chosen. No production combat, catalogue port, or parallel runtime mode. Probe code requires its own implementation request. |
 | S02 `establish-odyssey-native-runtime` | S01 / foundational G1-G2 pass | Promote proven foundations into a distinct 1.7/Odyssey package, minimal build/dependency graph, loading and metadata. Keep shared licensed assets actually needed by the new path. | Clean build and fresh-campaign smoke test with old-version loaders and legacy owning/travel paths absent from the supported runtime. Do not import obsolete folders by default. Exact package identifiers/layout are chosen here. |
 | S03 `unify-native-space-environment` | S02 | Native orbital/site generation and travel, oxygen/exposure and selected equipment; remove old space predicates/biome/temperature authority from the supported path. Verify ordinary native transport access. | Fresh ground/orbit/ground loop, breach/repressurization, equipment and map-persistence scenarios. No SOS2-only alternate orbit/environment. Basic transport is not armed-carrier support. |
@@ -253,7 +302,11 @@ part of each owning stage, not a final cleanup-only milestone.
 Every child proposal must provide:
 
 1. Player/developer outcome, explicit exclusions and selected mechanic rows.
-2. Evidence references and build baseline; facts separated from assumptions.
+2. Evidence references and build baseline; facts separated from assumptions and
+   published documentation separated from tested outcomes. Record the selected
+   SDK/pin, TFM, supported language version, game-supplied runtime and native
+   reference identity, carrying forward S00's baseline or explicitly justifying
+   and validating an update from official compatibility/release evidence.
 3. Native authority and additional-state boundary; planned retirement of any
    overlapping old behavior on its supported path.
 4. Prerequisite stages/gates, their evidence status, and a concrete stop/revise
